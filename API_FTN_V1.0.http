@@ -1,0 +1,6 @@
+@API_FTN_V1._0_HostAddress = http://localhost:5229
+
+GET {{API_FTN_V1._0_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
