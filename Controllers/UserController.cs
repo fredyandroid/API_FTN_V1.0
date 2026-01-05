@@ -59,7 +59,7 @@ namespace API_FTN_V1._0.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginRequest.Identifier || u.Email == loginRequest.Identifier);
             if (user == null || !BCrypt.Net.BCrypt.Verify(loginRequest.Password, user.Password))
             {
-                return Unauthorized("Non d'utilisateur ou mot de passe incorrect.");
+                return Unauthorized("oui c'est automatique. Non d'utilisateur ou mot de passe incorrect.");
             }
 
             if (!user.IsActive)
