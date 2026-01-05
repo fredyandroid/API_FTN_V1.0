@@ -61,12 +61,12 @@ namespace API_FTN_V1._0.Controllers
             {
                 return Unauthorized("oui c'est automatique. Non d'utilisateur ou mot de passe incorrect.");
             }
-
+            
             if (!user.IsActive)
             {
                 return Unauthorized("Le compte n'est pas activé. Veillez contacter l'entreprise pour activer votre compte");
             }
-
+            
             return Ok("Connexion réussie !");
         }
 

@@ -3,6 +3,7 @@ using API_FTN_V1._0.Models;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -10,9 +11,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace API_FTN_V1._0.Migrations
 {
     [DbContext(typeof(UserApiContext))]
-    partial class UserApiContextModelSnapshot : ModelSnapshot
+    [Migration("20260105201544_Addtoreg")]
+    partial class Addtoreg
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -68,6 +71,10 @@ namespace API_FTN_V1._0.Migrations
                         .HasColumnType("longtext");
 
                     b.Property<string>("Username")
+                        .IsRequired()
+                        .HasColumnType("longtext");
+
+                    b.Property<string>("ok")
                         .IsRequired()
                         .HasColumnType("longtext");
 

@@ -9,11 +9,14 @@
         public string Email { get; set; }
         public string Password { get; set; }// Mot de passe (hashé)
         public int Age { get; set; }
-        public string CountryName { get; set; }
+        public string Country { get; set; }
+        public string City { get; set; }
+        public string District { get; set; }
         public string Phone { get; set; }
         public string Username { get; set; }
        
         public bool IsActive { get; set; } = false; // Statut d'activation du compte
+   
         /* apres avoir supprimer le dossier migration
          * PM> add-migration Initialcreate
          * PM> update-database
@@ -24,7 +27,7 @@
 
 
          * */
-      
+
 
 
 
