@@ -2,7 +2,7 @@
 {
     public class User
     {
-
+       
         public int Id { get; set; } // Clé primaire
         public string FirstName { get; set; }
         public string LastName { get; set; }
@@ -17,16 +17,16 @@
         /* apres avoir supprimer le dossier migration
          * PM> add-migration Initialcreate
          * PM> update-database
-         * PM> Add-Migration AddEmailToUser  // pour ajouter une colonne "Email"
+         * PM> Add-Migration AddEmailToUser  // mise à jour de la base de donnée
          * PM> update-database
-         * PM> Add-Migration RemovePasswordFromUser // pour supprimer "PassWord"
+         * PM> Add-Migration RemovePasswordFromUser // mise à jour de la base de donnée
          * PM> update-database
 
 
          * */
         // super change cool
 
-        
+
 
 
     }

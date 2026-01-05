@@ -56,7 +56,7 @@ namespace API_FTN_V1._0.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
             // Vérifier l'utilisateur
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginRequest.Username);
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginRequest.Identifier || u.Email == loginRequest.Identifier);
             if (user == null || !BCrypt.Net.BCrypt.Verify(loginRequest.Password, user.Password))
             {
                 return Unauthorized("Non d'utilisateur ou mot de passe incorrect.");
