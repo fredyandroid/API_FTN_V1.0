@@ -12,9 +12,9 @@ namespace API_FTN_V1._0.Controllers
 
 
 
-        private readonly UserApiContext _context;
+        private readonly AppApiContext _context;
 
-        public UserController(UserApiContext context)
+        public UserController(AppApiContext context)
         {
             _context = context;
         }
@@ -26,19 +26,22 @@ namespace API_FTN_V1._0.Controllers
             // Vérifier si l'email est déjà utilisé
             if (await _context.Users.AnyAsync(u => u.Email == newUser.Email))
             {
-                return BadRequest("L'email est déjà utilisé.");
+                //L'email est déjà utilisé.
+                return BadRequest("EMAIL_ALREADY_EXISTS");
             }
 
             // Vérifier si le nom d'utilisateur est déjà utilisé
             if (await _context.Users.AnyAsync(u => u.Username == newUser.Username))
             {
-                return BadRequest("Le nom d'utilisateur est déjà utilisé.");
+                //Le nom d'utilisateur est déjà utilisé.
+                return BadRequest("USERNAME_ALREADY_EXISTS");
             }
 
             // Vérifier si le téléphone est déjà utilisé
             if (await _context.Users.AnyAsync(u => u.Phone == newUser.Phone))
             {
-                return BadRequest("Le numéro de téléphone est déjà utilisé.");
+                //Le numéro de téléphone est déjà utilisé.
+                return BadRequest("PHONE_ALREADY_EXISTS");
             }
 
             // Hash du mot de passe
@@ -48,7 +51,8 @@ namespace API_FTN_V1._0.Controllers
             _context.Users.Add(newUser);
             await _context.SaveChangesAsync();
 
-            return Ok("Inscription réussie !");
+            //Inscription réussie !
+            return Ok("REGISTER_SUCCESS");
         }
 
         // POST: api/User/login
@@ -59,15 +63,17 @@ namespace API_FTN_V1._0.Controllers
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginRequest.Identifier || u.Email == loginRequest.Identifier);
             if (user == null || !BCrypt.Net.BCrypt.Verify(loginRequest.Password, user.Password))
             {
-                return Unauthorized("Non d'utilisateur ou mot de passe incorrect.");
-            }
-            
+                //Non d'utilisateur ou mot de passe incorrect.
+                return Unauthorized("INVALID_CREDENTIALS");                
+            }         
+
             if (!user.IsActive)
             {
-                return Unauthorized("Le compte n'est pas activé. Veillez contacter l'entreprise pour activer votre compte");
+                //Le compte n'est pas activé. Veillez contacter l'entreprise pour activer votre compte
+                return Unauthorized("ACCOUNT_NOT_ACTIVE");
             }
-            
-            return Ok("Connexion réussie !");
+            //Connexion réussie !
+            return Ok("LOGIN_SUCCESS"); 
         }
 
         /*

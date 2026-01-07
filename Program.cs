@@ -5,7 +5,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 // Ajouter EF Core avec la chaîne de connexion
-builder.Services.AddDbContext<UserApiContext>(options =>
+builder.Services.AddDbContext<AppApiContext>(options =>
     options.UseMySql(
         builder.Configuration.GetConnectionString("AuthConnection"), // La chaîne de connexion
         new MySqlServerVersion(new Version(8, 0, 2)) // Remplacez par votre version de MySQL
