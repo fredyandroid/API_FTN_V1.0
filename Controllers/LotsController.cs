@@ -1,6 +1,7 @@
 ﻿using API_FTN_V1._0.Models;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 
 namespace API_FTN_V1._0.Controllers
 {
@@ -23,7 +24,7 @@ namespace API_FTN_V1._0.Controllers
         {            
             _context.Lots.Add(newLot);
             await _context.SaveChangesAsync();
-            return Ok(newLot);
+            return Ok("LOT_CREATE_SUCCESSFULLY");
         }
 
         //Mise à jour d'un Lot
@@ -47,7 +48,7 @@ namespace API_FTN_V1._0.Controllers
                 updatedLot.InitialQuantity - updatedLot.MortalityCount;
 
             await _context.SaveChangesAsync();
-            return Ok(lot);
+            return Ok("LOT_UPDATE_SUCCESSFULLY");
         }
 
         // supprimer un Lot
@@ -65,6 +66,49 @@ namespace API_FTN_V1._0.Controllers
 
             return Ok("LOT_DELETED_SUCCESSFULLY");
         }
+
+        // recuperer un lot 
+        // GET: api/Lots/5
+        [HttpGet("{id}")]
+        public async Task<ActionResult<Lot>> GetLot(int id)
+        {
+            var lot = await _context.Lots.FindAsync(id);
+
+            if (lot == null)
+            {
+                return NotFound();
+            }
+
+            return lot;
+        }
+
+        //pagination, envoi des donees en morceau au lieu de tous en une seul fois
+        //GET api/lots?page=1&pageSize=10
+        [HttpGet]
+        public async Task<IActionResult> GetLots(int page = 1, int pageSize = 2)
+        {
+            if (pageSize > 50) pageSize = 50;
+
+            var totalItems = await _context.Lots.CountAsync();
+
+            var lots = await _context.Lots
+                .OrderBy(l => l.Id) // IMPORTANT pour pagination stable
+                .Skip((page - 1) * pageSize)
+                .Take(pageSize)
+                .ToListAsync();
+
+            return Ok(new
+            {
+                Page = page,
+                PageSize = pageSize,
+                TotalItems = totalItems,
+                TotalPages = (int)Math.Ceiling(totalItems / (double)pageSize),
+                Data = lots
+            });
+        }
+
+
+
 
 
 
