@@ -97,7 +97,7 @@ namespace API_FTN_V1._0.Controllers
                 .Take(pageSize)
                 .ToListAsync();
 
-            return Ok(new
+            return Ok(new object 
             {
                 Page = page,
                 PageSize = pageSize,
