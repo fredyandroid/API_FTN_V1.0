@@ -88,14 +88,19 @@ namespace API_FTN_V1._0.Controllers
         public async Task<IActionResult> GetLots(int page = 1, int pageSize = 2)
         {
             if (pageSize > 50) pageSize = 50;
+            if (pageSize <= 0) pageSize = 10;
+            if (page <= 0) page = 1;
+
 
             var totalItems = await _context.Lots.CountAsync();
 
             var lots = await _context.Lots
+                .AsNoTracking()  // Désactive le suivi des entités par EF Core (optimise les performances en lecture seule)
                 .OrderBy(l => l.Id) // IMPORTANT pour pagination stable
                 .Skip((page - 1) * pageSize)
                 .Take(pageSize)
                 .ToListAsync();
+
                
             return Ok(new 
             {
@@ -106,10 +111,6 @@ namespace API_FTN_V1._0.Controllers
                 Data = lots
             });
         }
-
-
-//fredo
-
 
 
 
