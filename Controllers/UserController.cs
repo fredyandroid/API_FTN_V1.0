@@ -59,22 +59,36 @@ namespace API_FTN_V1._0.Controllers
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] LoginRequest loginRequest)
         {
-            // Vérifier l'utilisateur
-            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginRequest.Identifier || u.Email == loginRequest.Identifier);
-            if (user == null || !BCrypt.Net.BCrypt.Verify(loginRequest.Password, user.Password))
+            try
             {
-                //Non d'utilisateur ou mot de passe incorrect.
-                return Unauthorized("INVALID_CREDENTIALS");                
-            }         
+                    // Vérifier l'utilisateur
+                    var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == loginRequest.Identifier || u.Email == loginRequest.Identifier);
+                if (user == null || !BCrypt.Net.BCrypt.Verify(loginRequest.Password, user.Password))
+                {
+                    //Non d'utilisateur ou mot de passe incorrect.
+                    return Unauthorized("INVALID_CREDENTIALS");                
+                }         
 
-            if (!user.IsActive)
+                if (!user.IsActive)
+                {
+                    //Le compte n'est pas activé. Veillez contacter l'entreprise pour activer votre compte
+                    return Unauthorized("ACCOUNT_NOT_ACTIVE");
+                }
+                //Connexion réussie !
+                return Ok("LOGIN_SUCCESS");
+
+                }
+            catch (Exception ex)
             {
-                //Le compte n'est pas activé. Veillez contacter l'entreprise pour activer votre compte
-                return Unauthorized("ACCOUNT_NOT_ACTIVE");
+                // Log interne (important en production)
+                //Console.WriteLine(ex.Message);
+
+                // Message contrôlé vers le client
+                return StatusCode(500, "SERVER_ERROR");
             }
-            //Connexion réussie !
-            return Ok("LOGIN_SUCCESS"); 
         }
+
+
 
         /*
          * Utilisez Unauthorized() lorsque l'authentification est requise mais que l'utilisateur n'a pas fourni de credentials valides (par exemple,

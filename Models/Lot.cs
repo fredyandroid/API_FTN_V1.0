@@ -15,7 +15,7 @@ namespace API_FTN_V1._0.Models
         public string Status { get; set; }
         [Required]
         public int InitialQuantity { get; set; }
-        [Required]
+        
         public int CurrentQuantity { get; set; }
         [Required]
         public int MortalityCount { get; set; }

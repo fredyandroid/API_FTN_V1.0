@@ -21,7 +21,8 @@ namespace API_FTN_V1._0.Controllers
         // POST : api/Lots/
         [HttpPost]
         public async Task<IActionResult> CreateLot([FromBody] Lot newLot)
-        {            
+        {
+            newLot.CurrentQuantity = newLot.InitialQuantity - newLot.MortalityCount;
             _context.Lots.Add(newLot);
             await _context.SaveChangesAsync();
             return Ok("LOT_CREATE_SUCCESSFULLY");
@@ -111,9 +112,6 @@ namespace API_FTN_V1._0.Controllers
                 Data = lots
             });
         }
-
-
-
 
     }
 }
