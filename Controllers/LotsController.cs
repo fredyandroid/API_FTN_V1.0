@@ -113,13 +113,7 @@ namespace API_FTN_V1._0.Controllers
             });
         }
 
-<<<<<<< HEAD
-=======
->>>>>>>>> Temporary merge branch 2
 
-
->>>>>>>>> Temporary merge branch 2
->>>>>>> 4b3f762ada67afd096aadd6548347594e5bbd611
 
 
     }
